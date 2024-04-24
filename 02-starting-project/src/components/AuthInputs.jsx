@@ -40,36 +40,27 @@ export default function AuthInputs() {
     const emailNotValid = submitted && !enteredEmail.includes('@');
     const passwordNotValid = submitted && enteredPassword.trim().length < 6;
 
-  console.log(emailNotValid);
+    console.log(emailNotValid);
 
 
     return (
         <div id="auth-inputs">
-            {/*<div className="controls" >*/}
             <ControlDiv>
-                {/*<p className="paragraph">*/}
-                {/*    <Label $invalid={emailNotValid}>Email</Label>*/}
-                    <Input
-                        lable="email"
-                        type="email"
-                        $invalid = {emailNotValid}
-                        // className={emailNotValid ? 'invalid' : undefined}
-                        onChange={(event) => handleInputChange('email', event.target.value)}
-                    />
-                {/*</p>*/}
-                    <CustomInput lable={passwordNotValid ? "$invalid" : ""}/>
-                {/*<p>*/}
-                    {/*<Label className={`label ${passwordNotValid ? "$invalid" : ""} `}>Password</Label>*/}
-                    <Input
-                        lable="password"
-                        type="password"
-                        // className={passwordNotValid ? 'invalid' : undefined}
-                        $invalid={passwordNotValid}
-                        onChange={(event) =>
-                            handleInputChange('password', event.target.value)
-                        }
-                    />
-                {/*</p>*/}
+                <Input
+                    lable="email"
+                    type="email"
+                    $invalid={emailNotValid}
+                    onChange={(event) => handleInputChange('email', event.target.value)}
+                />
+                <CustomInput lable={passwordNotValid ? "$invalid" : ""}/>
+                <Input
+                    lable="password"
+                    type="password"
+                    $invalid={passwordNotValid}
+                    onChange={(event) =>
+                        handleInputChange('password', event.target.value)
+                    }
+                />
             </ControlDiv>
             <div className="actions">
                 <Button type="button" className="text-button">
