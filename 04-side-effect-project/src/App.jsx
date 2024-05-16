@@ -14,6 +14,16 @@ function App() {
   const [availablePlaces, setAvailablePlaces] = useState([]);
 
   useEffect(() =>{
+    const storedId = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    const storedPlaces = storedId.map((id) =>
+        AVAILABLE_PLACES.find((place) =>
+            place.id === id
+        ));
+
+    setPickedPlaces(storedPlaces);
+  },[])
+
+  useEffect(() =>{
     // 사용자 위치 정보를 얻는 기능
     navigator.geolocation.getCurrentPosition((position) =>{
       const sortedPlaces = sortPlacesByDistance(
@@ -55,6 +65,11 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
     modal.current.close();
+
+    const storedId = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    localStorage.setItem('selectedPlaces', JSON.stringify([storedId.filter((id) =>{
+      id !== selectedPlace.current
+    })]));
   }
 
   return (
