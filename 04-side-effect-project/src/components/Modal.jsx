@@ -4,19 +4,10 @@ import {createPortal} from 'react-dom';
 function Modal({ open, children }) {
   const dialog = useRef();
 
-  // useImperativeHandle(ref, () => {
-  //   return {
-  //     open: () => {
-  //       dialog.current.showModal();
-  //     },
-  //     close: () => {
-  //       dialog.current.close();
-  //     },
-  //   };
-  // });
+  dialog.current.showModal();
 
   return createPortal(
-    <dialog className="modal" ref={dialog} open={open}>
+    <dialog className="modal" ref={dialog}>
       {children}
     </dialog>,
     document.getElementById('modal')
