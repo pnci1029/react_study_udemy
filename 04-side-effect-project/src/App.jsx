@@ -7,21 +7,19 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import {sortPlacesByDistance} from "./loc.js";
 
+const storedId = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+const storedPlaces = storedId.map((id) =>
+    AVAILABLE_PLACES.find((place) =>
+        place.id === id
+    ));
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState([selectedPlace]);
   const [availablePlaces, setAvailablePlaces] = useState([]);
 
-  useEffect(() =>{
-    const storedId = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    const storedPlaces = storedId.map((id) =>
-        AVAILABLE_PLACES.find((place) =>
-            place.id === id
-        ));
 
-    setPickedPlaces(storedPlaces);
-  },[])
+  setPickedPlaces(storedPlaces);
 
   useEffect(() =>{
     // 사용자 위치 정보를 얻는 기능
