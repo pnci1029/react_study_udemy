@@ -8,7 +8,7 @@ function Modal({ open, children, onClose }) {
     if (open) {
       dialog.current.showModal();
     } else {
-      dialog.current.closeModal();
+      dialog.current.close();
     }
   },[open])
 

@@ -1,15 +1,31 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
+const Timer = 3000;
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+    const [remainingTime, setRemainingTime] = useState(Timer);
+
+
+    useEffect(() =>{
+        const interval = setInterval(() => {
+            setRemainingTime((prev) => prev - 10);
+        }, 10);
+
+        // 클린업
+        return () =>{
+            clearInterval(interval);
+        }
+    })
 
     // 3초후 확인창 닫히게 처리
     useEffect(() =>{
         const timer = setTimeout(() =>{
             onConfirm();
-        },3000)
+            setRemainingTime(timer)
+        },Timer)
 
+        // 클린업
         return () =>{
-            clearTsimeout(timer);
+            clearTimeout(timer);
         }
     })
   return (
@@ -24,6 +40,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+        <progress value={remainingTime} max={Timer}/>
     </div>
   );
 }
