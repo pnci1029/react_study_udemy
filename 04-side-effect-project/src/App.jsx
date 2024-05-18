@@ -19,8 +19,6 @@ function App() {
   const [availablePlaces, setAvailablePlaces] = useState([]);
 
 
-  setPickedPlaces(storedPlaces);
-
   useEffect(() =>{
     // 사용자 위치 정보를 얻는 기능
     navigator.geolocation.getCurrentPosition((position) =>{
@@ -72,7 +70,7 @@ function App() {
 
   return (
     <>
-      <Modal open={isModalOpen}>
+      <Modal open={isModalOpen} onClose={handleStopRemovePlace}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
           onConfirm={handleRemovePlace}
