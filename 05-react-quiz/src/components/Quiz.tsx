@@ -1,19 +1,35 @@
 import {useState} from "react";
 import question from '../question.js';
+enum AnswerStatus{
+    WRONG = "WRONG",
+    WAIT = "WAIT",
+}
 
 export function Quiz() {
     // 질문목록을 보여주기위한 상태값. 배열이 0부터 시작이라 초기값 지정
     const [currentQuestion, setCurrentQuestion] = useState(0);
     // 정답 상태값.
-    const [currentAnswer, setCurrentAnswer] = useState('');
+    const [currentAnswer, setCurrentAnswer] = useState(1);
 
-    const handleAnswerChange = (event) => {
-        setCurrentAnswer(event.target.value);
+    // 정답 선택값.
+    const [selectedAnswer, setSelectedAnswer] = useState(7);
+
+    const [isAnswered, setIsAnswered]= useState(AnswerStatus.WAIT);
+
+    // 핸들러를 커링으로 정의하여 idx값 처리
+    const handleAnswerChange = (idx) => (event) => {
+        // setSelectedAnswer((d) => event.target.value);
+        setSelectedAnswer(idx);
     };
 
     const handleNextQuestion = () => {
-        setCurrentQuestion((prevCurrentQuestion) => prevCurrentQuestion + 1);
-        setCurrentAnswer('');
+        if (selectedAnswer === currentAnswer) {
+            setCurrentQuestion((prevCurrentQuestion) => prevCurrentQuestion + 1);
+            setCurrentAnswer(7);
+            setIsAnswered(AnswerStatus.WAIT);
+        } else {
+            setIsAnswered(AnswerStatus.WRONG)
+        }
     };
 
     return (
@@ -35,15 +51,19 @@ export function Quiz() {
                                             type="radio"
                                             name="answer"
                                             value={answer}
-                                            checked={currentAnswer === answer}
-                                            onChange={handleAnswerChange}
+                                            checked={selectedAnswer === idx}
+                                            onChange={handleAnswerChange(idx)}
                                         />
                                         {answer}
                                     </label>
                                 </li>
+
                             ))}
+                            {isAnswered === AnswerStatus.WRONG ? (
+                                <p style={{color:"red"}}>틀렸습니다 다시 선택하세요 씨발년아</p>
+                            ) : (<></>)}
+                            <button onClick={handleNextQuestion}>Next Question</button>
                         </ul>
-                        <button onClick={handleNextQuestion}>Next Question</button>
                     </div>
                 )
             ))}
