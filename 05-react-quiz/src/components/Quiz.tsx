@@ -1,5 +1,6 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Question from '../question.js';
+import quizComplete from '../assets/quiz-complete.png';
 
 enum AnswerStatus {
     WRONG = "WRONG",
@@ -11,6 +12,8 @@ export function Quiz() {
 
     const [question, setQuestion] = useState([]);
     const activeQuestionIdx = question.length;
+    const isQuestionEnd = activeQuestionIdx === Question.length;
+    console.log(Question.length)
 
     /**
      * 정답을 섞어주기 위해 Question에 있는 answer들을 배열에 삽입
@@ -33,9 +36,10 @@ export function Quiz() {
         })
     }
 
-    console.log(question)
+
 
     return (
+        !isQuestionEnd ? (
         <div id={"quiz"}>
             <div id={"question"}>
                 <h2>{Question[activeQuestionIdx].text}</h2>
@@ -54,6 +58,10 @@ export function Quiz() {
                     ) : (<></>)}
                 </ul>
             </div>
+        </div>
+        ) :  <div id={"summary"}>
+            <img src={quizComplete}/>
+            <h2>Quiz End!</h2>
         </div>
     );
 }
