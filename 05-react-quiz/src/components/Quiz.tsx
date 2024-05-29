@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import Question from '../question.js';
 import quizComplete from '../assets/quiz-complete.png';
 
@@ -26,7 +26,7 @@ export function Quiz() {
      * 셔플 해주는 코드
      * 위 콘솔과 아래 콘솔 내용은 다르다.
      */
-    shuffledAnswer.sort(() =>Math.random() - 0.5);
+    shuffledAnswer.sort(() => Math.random() - 0.5);
     console.log(shuffledAnswer)
 
     // 버튼 클릭 시 정담 체크하는 함수
@@ -36,10 +36,17 @@ export function Quiz() {
         })
     }
 
+    if (isQuestionEnd) {
+        return (
+            <div id={"summary"}>
+                <img src={quizComplete}/>
+                <h2>Quiz End!</h2>
+            </div>
+        )
+    }
 
 
     return (
-        !isQuestionEnd ? (
         <div id={"quiz"}>
             <div id={"question"}>
                 <h2>{Question[activeQuestionIdx].text}</h2>
@@ -58,10 +65,6 @@ export function Quiz() {
                     ) : (<></>)}
                 </ul>
             </div>
-        </div>
-        ) :  <div id={"summary"}>
-            <img src={quizComplete}/>
-            <h2>Quiz End!</h2>
         </div>
     );
 }
