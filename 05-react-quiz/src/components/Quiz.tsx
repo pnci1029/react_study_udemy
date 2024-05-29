@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import Question from '../question.js';
 import quizComplete from '../assets/quiz-complete.png';
 
@@ -8,6 +8,25 @@ enum AnswerStatus {
 }
 
 export function Quiz() {
+    // 전체 시간
+    const maxTime = 15000;
+    //새로 고쳐질 시간
+    const returningTime = 20000;
+
+    // 퀴즈 타이머용 상태
+    // 남은 시간들에 대한 상태
+    const [remainingTime, setRemainingTime] = useState(maxTime);
+
+    useEffect(() => {
+        // setTimeout(maxTime, returningTime);
+    },[])
+
+    useEffect(() => {
+        setInterval(() => {
+            setRemainingTime(p => p - 100);
+        }, 100)
+    },[])
+
     const [isAnswered, setIsAnswered] = useState(AnswerStatus.WAIT);
 
     const [question, setQuestion] = useState([]);
@@ -52,7 +71,6 @@ export function Quiz() {
     }
 
 
-
     return (
         <div id={"quiz"}>
             <div id={"question"}>
@@ -72,6 +90,7 @@ export function Quiz() {
                     ) : (<></>)}
                 </ul>
             </div>
+            <progress id={"question-time"} max={maxTime} value={remainingTime} />
         </div>
     );
 }
