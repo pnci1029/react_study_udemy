@@ -16,6 +16,21 @@ export function Quiz() {
     console.log(Question.length)
 
     /**
+     * 아래 조건 Return 문을 위로 옮김
+     * shuffledAnswer 계산 하는 과정에 activeQuestionoIdx가
+     * json 인덱스를 초과하는 경우가 발생하여 위치 수정
+     */
+
+    if (isQuestionEnd) {
+        return (
+            <div id={"summary"}>
+                <img src={quizComplete}/>
+                <h2>Quiz End!</h2>
+            </div>
+        )
+    }
+
+    /**
      * 정답을 섞어주기 위해 Question에 있는 answer들을 배열에 삽입
      * 원본은 그대로 두고 shuffle하기 위해 shuffledAnswer이라는 배열 생성
      */
@@ -36,14 +51,6 @@ export function Quiz() {
         })
     }
 
-    if (isQuestionEnd) {
-        return (
-            <div id={"summary"}>
-                <img src={quizComplete}/>
-                <h2>Quiz End!</h2>
-            </div>
-        )
-    }
 
 
     return (
