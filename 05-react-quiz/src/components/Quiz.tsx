@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import Question from '../question.js';
 import quizComplete from '../assets/quiz-complete.png';
+import {QuizTimer} from "./QuizTimer";
 
 enum AnswerStatus {
     WRONG = "WRONG",
@@ -9,30 +10,15 @@ enum AnswerStatus {
 
 export function Quiz() {
     // 전체 시간
-    const maxTime = 15000;
+    const maxTime = 10000;
     //새로 고쳐질 시간
     const returningTime = 20000;
-
-    // 퀴즈 타이머용 상태
-    // 남은 시간들에 대한 상태
-    const [remainingTime, setRemainingTime] = useState(maxTime);
-
-    useEffect(() => {
-        // setTimeout(maxTime, returningTime);
-    },[])
-
-    useEffect(() => {
-        setInterval(() => {
-            setRemainingTime(p => p - 100);
-        }, 100)
-    },[])
 
     const [isAnswered, setIsAnswered] = useState(AnswerStatus.WAIT);
 
     const [question, setQuestion] = useState([]);
     const activeQuestionIdx = question.length;
     const isQuestionEnd = activeQuestionIdx === Question.length;
-    console.log(Question.length)
 
     /**
      * 아래 조건 Return 문을 위로 옮김
@@ -73,6 +59,7 @@ export function Quiz() {
 
     return (
         <div id={"quiz"}>
+            <QuizTimer maxTime={10000} timeout={() =>handleClickedAnswer(null)}/>
             <div id={"question"}>
                 <h2>{Question[activeQuestionIdx].text}</h2>
                 <ul>
@@ -90,7 +77,6 @@ export function Quiz() {
                     ) : (<></>)}
                 </ul>
             </div>
-            <progress id={"question-time"} max={maxTime} value={remainingTime} />
         </div>
     );
 }
