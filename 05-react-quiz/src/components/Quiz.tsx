@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Question from '../question.js';
 import quizComplete from '../assets/quiz-complete.png';
 import {QuizTimer} from "./QuizTimer";
@@ -50,16 +50,20 @@ export function Quiz() {
     console.log(shuffledAnswer)
 
     // 버튼 클릭 시 정담 체크하는 함수
-    function handleClickedAnswer(answer) {
+    const handleSelectAnswer = useCallback(function handleClickedAnswer(answer) {
         setQuestion((prev) => {
             return [...prev, answer];
         })
-    }
+    },[])
+
+    const handleSkipQuestion = useCallback(
+        () => handleSelectAnswer(null)
+    ,[handleSelectAnswer]);
 
 
     return (
         <div id={"quiz"}>
-            <QuizTimer maxTime={10000} timeout={() =>handleClickedAnswer(null)}/>
+            <QuizTimer maxTime={10000} timeout={handleSkipQuestion}/>
             <div id={"question"}>
                 <h2>{Question[activeQuestionIdx].text}</h2>
                 <ul>
@@ -69,7 +73,7 @@ export function Quiz() {
                      */}
                     {shuffledAnswer.map((answer) =>
                         <li key={answer} className={"answer"}>
-                            <button onClick={() => handleClickedAnswer(answer)}>{answer}</button>
+                            <button onClick={() => handleSelectAnswer}>{answer}</button>
                         </li>
                     )}
                     {isAnswered === AnswerStatus.WRONG ? (
