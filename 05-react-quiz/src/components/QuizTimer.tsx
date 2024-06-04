@@ -8,13 +8,19 @@ export function QuizTimer({maxTime, timeout}) {
     const [remainingTime, setRemainingTime] = useState(maxTime);
 
     useEffect(() => {
-        setTimeout(timeout, maxTime);
+        const times = setTimeout(timeout, maxTime);
+        return() =>{
+            clearTimeout(times)
+        }
     }, [maxTime, timeout]);
 
     useEffect(() => {
-        setInterval(() => {
+        const interval = setInterval(() => {
             setRemainingTime(p => p - 100);
         }, 100)
+        return() =>{
+            clearInterval(interval)
+        }
     },[])
     console.log(remainingTime)
     return(

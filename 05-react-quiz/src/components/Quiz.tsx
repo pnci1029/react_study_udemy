@@ -61,9 +61,17 @@ export function Quiz() {
     ,[handleSelectAnswer]);
 
 
+                /**
+                * 기존에는 타이머가 만료되어도 -값을 가지며 계속 내려감
+                 * 이는 QuizTimer컴포넌트가 재실행되지 않아서 생긴 문제인데,
+                 * 상위 컴포넌트인 Quiz에 JSX내용에 하위컴포넌트가
+                 * key값을 가지며 변동하는 key 상태에 따라 하위 컴포넌트도 재실행됨
+                 * 따라서 타이머가 - 값을 가지지 않게 된다.
+                */
     return (
         <div id={"quiz"}>
-            <QuizTimer maxTime={10000} timeout={handleSkipQuestion}/>
+            <QuizTimer maxTime={10000} timeout={handleSkipQuestion}
+            key={activeQuestionIdx}/>
             <div id={"question"}>
                 <h2>{Question[activeQuestionIdx].text}</h2>
                 <ul>
