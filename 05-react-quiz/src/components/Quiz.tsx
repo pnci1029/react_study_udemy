@@ -68,6 +68,8 @@ export function Quiz() {
                  * key값을 가지며 변동하는 key 상태에 따라 하위 컴포넌트도 재실행됨
                  * 따라서 타이머가 - 값을 가지지 않게 된다.
                 */
+
+
     return (
         <div id={"quiz"}>
             <QuizTimer maxTime={10000} timeout={handleSkipQuestion}
