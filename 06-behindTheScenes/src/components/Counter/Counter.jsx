@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import {memo, useState} from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -27,7 +27,15 @@ function isPrime(number) {
   return true;
 }
 
-export default function Counter({ initialCount }) {
+/**
+ * Counter 컴포넌트가 App 컴포넌트 상태가 변할때마다 재실행되면서
+ * 불필요한 렌더링이 반복됨
+ * memo 를 사용하면 Counter의 initialCount또는 props의 배열순서나 정보를 기억하여
+ * 이전과 동일한 상태일 경우 렌더링을 저지함
+ * 그러나 좋은방법은 아니다
+  */
+
+const Counter = memo (function Counter({ initialCount }) {
   log('<Counter /> rendered', 1);
   const initialCountIsPrime = isPrime(initialCount);
 
@@ -58,4 +66,6 @@ export default function Counter({ initialCount }) {
       </p>
     </section>
   );
-}
+})
+
+export default Counter;
