@@ -1,4 +1,4 @@
-import {memo, useCallback, useState} from 'react';
+import {memo, useCallback, useMemo, useState} from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -37,7 +37,15 @@ function isPrime(number) {
 
 const Counter = memo (function Counter({ initialCount }) {
   log('<Counter /> rendered', 1);
-  const initialCountIsPrime = isPrime(initialCount);
+
+  /**
+   * useMemo -> 함수의 상태가 바뀜에 따라서 렌더링을 방지하기 위해 사용
+   * useMemo <-> memo 구분 필요
+   *
+   * 익명함수("()")를 통해 함수(isPrime)를 저장하고 내부 의존성 값 중 하나라도 변하지 않으면 실행되지 않음
+   * 의존성이 빈 배열이라면 절대 재실행 되지 않는다.
+   */
+  const initialCountIsPrime = useMemo(() =>isPrime(initialCount),[]);
 
   const [counter, setCounter] = useState(initialCount);
 
