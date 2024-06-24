@@ -47,14 +47,23 @@ const Counter = memo (function Counter({ initialCount }) {
    */
   const initialCountIsPrime = useMemo(() =>isPrime(initialCount),[]);
 
-  const [counter, setCounter] = useState(initialCount);
+  // const [counter, setCounter] = useState(initialCount);
+  const [counter, setCounter] = useState([
+    {value: initialCount, id: Math.random() * 1000},
+  ]);
 
   const handleDecrement = useCallback(function handleDecrement() {
-    setCounter((prevCounter) => prevCounter - 1);
+    setCounter((prevCounter) => [
+      {value: -1, id: Math.random() * 1000},
+          ...prevCounter
+    ]);
   },[])
 
   const handleIncrement = useCallback(function handleIncrement() {
-    setCounter((prevCounter) => prevCounter + 1);
+    setCounter((prevCounter) => [
+      {value: 1, id: Math.random() * 1000},
+      ...prevCounter
+    ]);
   },[])
 
   return (
@@ -67,7 +76,7 @@ const Counter = memo (function Counter({ initialCount }) {
         <IconButton icon={MinusIcon} onClick={handleDecrement}>
           Decrement
         </IconButton>
-        <CounterOutput value={counter} />
+        <CounterOutput id={counter.id} value={counter.value} />
         <IconButton icon={PlusIcon} onClick={handleIncrement}>
           Increment
         </IconButton>
