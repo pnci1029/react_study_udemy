@@ -1,4 +1,4 @@
-import {memo, useCallback, useMemo, useState} from 'react';
+import {memo, useCallback, useEffect, useMemo, useState} from 'react';
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -46,6 +46,12 @@ const Counter = memo (function Counter({ initialCount }) {
    * 의존성이 빈 배열이라면 절대 재실행 되지 않는다.
    */
   const initialCountIsPrime = useMemo(() =>isPrime(initialCount),[]);
+
+  useEffect(() =>{
+    setCounter(
+      [{value: initialCount, id: Math.random() * 1000}]
+    )
+  },[initialCount])
 
   // const [counter, setCounter] = useState(initialCount);
   const [counter, setCounter] = useState([
